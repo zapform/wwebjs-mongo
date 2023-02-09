@@ -46,9 +46,10 @@ class MongoStore {
             filename: `${options.session}.zip`
         }).toArray();
 
-        documents.map(async doc => {
+         await Promise.all(documents.map(async doc => {
             return bucket.delete(doc._id);
-        });   
+        }));
+        bucket.drop()
     }
 
     async #deletePrevious(options) {
